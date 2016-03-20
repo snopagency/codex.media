@@ -1,0 +1,5 @@
+backups/*
+updates/*
+site/*
+archive.tar.gz
+commands.sh
