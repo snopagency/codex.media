@@ -4,8 +4,57 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "86ebd49dfd62602dc2ae09bb2458d471",
+    "content-hash": "56c4174c43417da66dd393773e35af03",
     "packages": [
+        {
+            "name": "codex-team/capella",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codex-team/capella.php.git",
+                "reference": "7b15accbefd352fce8f378cd731cee242d04c571"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codex-team/capella.php/zipball/7b15accbefd352fce8f378cd731cee242d04c571",
+                "reference": "7b15accbefd352fce8f378cd731cee242d04c571",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ],
+                "psr-4": {
+                    "CodeX\\Capella\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Georgy Berezhnoy",
+                    "email": "gohabereg@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Useful package for image uploading with capella.pics",
+            "homepage": "https://github.com/codex-team/capella.php#readme",
+            "keywords": [
+                "capella",
+                "codex",
+                "filters",
+                "image",
+                "uploader",
+                "uploading"
+            ],
+            "time": "2018-02-10T17:25:42+00:00"
+        },
         {
             "name": "codex-team/codex.editor",
             "version": "dev-codex-org",

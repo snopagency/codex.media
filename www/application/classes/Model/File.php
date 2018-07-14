@@ -1,5 +1,8 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+use \Capella\Capella;
+
+
 class Model_File extends Model
 {
     public $id = 0;
@@ -111,7 +114,7 @@ class Model_File extends Model
                 break;
 
             case self::EDITOR_IMAGE:
-                $this->filename = 'o_' . $savedFilename;
+                $this->filename = $savedFilename;
                 break;
 
             case self::USER_PHOTO:
@@ -156,11 +159,11 @@ class Model_File extends Model
                 break;
         }
 
-        $this->title = $this->getOriginalName($file['name']);
-        $this->filepath = $path . $this->filename;
+//        $this->title = $this->getOriginalName($file['name']);
+        $this->filepath = $this->filename;
         $this->size = $this->getSize();
-        $this->mime = $this->getMime();
-        $this->extension = $this->getExtension();
+//        $this->mime = $this->getMime();
+//        $this->extension = $this->getExtension();
         $this->author = $user_id;
 
         return $this->insert();
@@ -320,50 +323,59 @@ class Model_File extends Model
             mkdir($path, 0777, true);
         }
 
-        $file = Upload::save($file, null, $path);
+//        $file = Upload::save($file, null, $path);
 
-        if (!$file) {
+        try {
+            $image = Capella::upload($file['tmp_name']);
+
+            $filename = $image->url();
+        } catch (\Exception $e) {
+            \Hawk\HawkCatcher::catchException($e);
             return false;
         }
 
-        $this->file_hash_hex = bin2hex(openssl_random_pseudo_bytes(16));
-        $filename = $this->file_hash_hex . '.jpg';
 
 
-        foreach ($sizesConfig as $prefix => $sizes) {
+//        $this->file_hash_hex = bin2hex(openssl_random_pseudo_bytes(16));
+//        $filename = $this->file_hash_hex . '.jpg';
 
-            /**
-             * Все операции делаем с исходным файлом.
-             * Для этого заново его загружаем в переменную
-             */
-            $image = Image::factory($file);
 
-            $isSquare = !!$sizes[0];
-            $width = Arr::get($sizes, 1, null);
-            $height = !$isSquare ? Arr::get($sizes, 2, null) : $width;
+//        foreach ($sizesConfig as $prefix => $sizes) {
+//
+//            /**
+//             * Все операции делаем с исходным файлом.
+//             * Для этого заново его загружаем в переменную
+//             */
+//            $image = Image::factory($file);
+//
+//            $isSquare = !!$sizes[0];
+//            $width = Arr::get($sizes, 1, null);
+//            $height = !$isSquare ? Arr::get($sizes, 2, null) : $width;
+//
+//            $image->background('#fff');
+//
+//            // Вырезание квадрата
+//            if ($isSquare) {
+//                if ($image->width >= $image->height) {
+//                    $image->resize(null, $height, Image::AUTO);
+//                } else {
+//                    $image->resize($width, null, Image::AUTO);
+//                }
+//
+//                $image->crop($width, $height);
+//            } else {
+//                if ($image->width > $width || $image->height > $height) {
+//                    $image->resize($width, $height, Image::AUTO);
+//                }
+//            }
+//
+//            $image->save($path . $prefix . '_' . $filename);
+//        }
 
-            $image->background('#fff');
-
-            // Вырезание квадрата
-            if ($isSquare) {
-                if ($image->width >= $image->height) {
-                    $image->resize(null, $height, Image::AUTO);
-                } else {
-                    $image->resize($width, null, Image::AUTO);
-                }
-
-                $image->crop($width, $height);
-            } else {
-                if ($image->width > $width || $image->height > $height) {
-                    $image->resize($width, $height, Image::AUTO);
-                }
-            }
-
-            $image->save($path . $prefix . '_' . $filename);
-        }
+//        var_dump($file);
 
         // Delete the temporary file
-        unlink($file);
+//        unlink($file);
 
         return $filename;
     }
