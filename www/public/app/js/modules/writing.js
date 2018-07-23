@@ -14,22 +14,21 @@
  * );
  */
 
+const writing = () => {
 
-module.exports = (function () {
+    // /**
+    //  * CodeX Editor Personality-tool
+    //  * @see  https://github.com/codex-editor/personality
+    //  */
+    // const personalityTool = require('exports-loader?cdxEditorPersonality!codex.editor.personality');
+    //
+    // /**
+    //  * CodeX Editor link embed tool
+    //  * @see  https://github.com/codex-editor/link
+    //  */
+    // const linkTool = require('exports-loader?cdxEditorLink!codex.editor.link');
 
-    /**
-     * CodeX Editor Personality-tool
-     * @see  https://github.com/codex-editor/personality
-     */
-    var personalityTool = require('exports-loader?cdxEditorPersonality!codex.editor.personality');
-
-    /**
-     * CodeX Editor link embed tool
-     * @see  https://github.com/codex-editor/link
-     */
-    var linkTool = require('exports-loader?cdxEditorLink!codex.editor.link');
-
-    var editorIsReady = false,
+    let editorIsReady = false,
         settings = {
             hideEditorToolbar   : false,
             titleId             : 'editorWritingTitle',
@@ -47,12 +46,12 @@ module.exports = (function () {
      * @param  {Object} initSettings    base settings for editor
      * @return {Promise}            all editor's resources are ready
      */
-    var prepare = function (initSettings) {
+    const prepare = (initSettings) => {
 
         mergeSettings(initSettings);
 
         return loadEditorResources(settings.resources)
-            .then(function () {
+            .then(() => {
 
                 editorIsReady = true;
 
@@ -65,27 +64,27 @@ module.exports = (function () {
      *
      * @param  {Object} initSettings  list of params from init
      */
-    function mergeSettings(initSettings) {
+    const mergeSettings = (initSettings) => {
 
-        for (var key in initSettings) {
+        for (let key in initSettings) {
 
             settings[key] = initSettings[key];
 
         }
 
-    }
+    };
 
     /**
      * Run editor
      */
-    function startEditor() {
+    const startEditor = () => {
 
         /**
          * @todo get from server
          */
-        var EDITOR_IMAGE = 1;
-        var EDITOR_FILE  = 2;
-        var EDITOR_PERSONALITY  = 6;
+        const EDITOR_IMAGE = 1,
+            EDITOR_FILE  = 2,
+            EDITOR_PERSONALITY  = 6;
 
         codex.editor.start({
 
@@ -172,21 +171,21 @@ module.exports = (function () {
                     enableLineBreaks: true,
                     allowedToPaste: true
                 },
-                link: {
-                    type             : 'link',
-                    iconClassname    : 'cdx-link-icon',
-                    displayInToolbox : true,
-                    prepare          : linkTool.prepare,
-                    render           : linkTool.render,
-                    makeSettings     : linkTool.settings,
-                    save             : linkTool.save,
-                    destroy          : linkTool.destroy,
-                    validate         : linkTool.validate,
-                    config           : {
-                        fetchURL         : '/fetchURL',
-                        defaultStyle     : 'smallCover'
-                    }
-                },
+                // link: {
+                //     type             : 'link',
+                //     iconClassname    : 'cdx-link-icon',
+                //     displayInToolbox : true,
+                //     prepare          : linkTool.prepare,
+                //     render           : linkTool.render,
+                //     makeSettings     : linkTool.settings,
+                //     save             : linkTool.save,
+                //     destroy          : linkTool.destroy,
+                //     validate         : linkTool.validate,
+                //     config           : {
+                //         fetchURL         : '/fetchURL',
+                //         defaultStyle     : 'smallCover'
+                //     }
+                // },
                 raw : {
                     type: 'raw',
                     displayInToolbox: true,
@@ -198,27 +197,27 @@ module.exports = (function () {
                     enableLineBreaks: true,
                     allowPasteHTML: true
                 },
-                personality: {
-                    type             : 'personality',
-                    displayInToolbox : true,
-                    iconClassname    : 'cdx-personality-icon',
-                    prepare          : personalityTool.prepare,
-                    render           : personalityTool.render,
-                    save             : personalityTool.save,
-                    validate         : personalityTool.validate,
-                    destroy          : personalityTool.destroy,
-                    enableLineBreaks : true,
-                    showInlineToolbar: true,
-                    config: {
-                        uploadURL: '/upload/' + EDITOR_PERSONALITY,
-                    }
-                }
+                // personality: {
+                //     type             : 'personality',
+                //     displayInToolbox : true,
+                //     iconClassname    : 'cdx-personality-icon',
+                //     prepare          : personalityTool.prepare,
+                //     render           : personalityTool.render,
+                //     save             : personalityTool.save,
+                //     validate         : personalityTool.validate,
+                //     destroy          : personalityTool.destroy,
+                //     enableLineBreaks : true,
+                //     showInlineToolbar: true,
+                //     config: {
+                //         uploadURL: '/upload/' + EDITOR_PERSONALITY,
+                //     }
+                // }
             },
 
             data : settings.data
         });
 
-        var titleInput = document.getElementById(settings.titleId);
+        let titleInput = document.getElementById(settings.titleId);
 
         /**
          * Focus at the title
@@ -226,17 +225,17 @@ module.exports = (function () {
         titleInput.focus();
         titleInput.addEventListener('keydown', titleKeydownHandler );
 
-    }
+    };
 
     /**
      * Title input keydowns
      * @description  By ENTER, sets focus on editor
      * @param  {Event} event  - keydown event
      */
-    var titleKeydownHandler = function (event) {
+    const titleKeydownHandler = (event) => {
 
         /* Set focus on Editor by Enter     */
-        if ( event.keyCode == codex.core.keys.ENTER ) {
+        if (event.keyCode === codex.core.keys.ENTER) {
 
             event.preventDefault();
 
@@ -249,11 +248,12 @@ module.exports = (function () {
     /**
      * Temporary scheme to focus Codex Editor first-block
      */
-    var focusRedactor = function () {
+    const focusRedactor = function () {
 
-        var firstBlock       = codex.editor.nodes.redactor.firstChild,
-            contentHolder    = firstBlock.firstChild,
-            firstToolWrapper = contentHolder.firstChild,
+        const firstBlock = codex.editor.nodes.redactor.firstChild,
+            contentHolder = firstBlock.firstChild;
+
+        let firstToolWrapper = contentHolder.firstChild,
             aloneTextNode;
 
         /**
@@ -271,13 +271,15 @@ module.exports = (function () {
     };
 
     /**
-     * Public function for run editor
+     * Public function to run editor
      */
-    var init = function () {
+    const init = function (moduleSettings) {
+
+        console.log(moduleSettings);
 
         if (!editorIsReady) return;
 
-        startEditor();
+        // startEditor();
 
     };
 
@@ -288,11 +290,11 @@ module.exports = (function () {
      * @param  {String}  formId               remove 'hide' from this form by id
      * @param  {String}  hidePlaceholderClass add this class to placeholder
      */
-    var open = function (targetClicked, formId, hidePlaceholderClass) {
+    const open = (targetClicked, formId, hidePlaceholderClass) => {
 
         if (!editorIsReady) return;
 
-        var holder = targetClicked;
+        const holder = targetClicked;
 
         document.getElementById(formId).classList.remove('hide');
         holder.classList.add(hidePlaceholderClass);
@@ -308,7 +310,7 @@ module.exports = (function () {
      * @param  {Array} resources list of resources which should be loaded
      * @return {Promise}
      */
-    var loadEditorResources = function (resources) {
+    const loadEditorResources = (resources) => {
 
         return Promise.all(
             resources.map(loadResource)
@@ -322,25 +324,25 @@ module.exports = (function () {
      * @param  {Object} resource name and paths for js and css
      * @return {Promise}
      */
-    function loadResource(resource) {
+    const loadResource = (resource) => {
 
-        var name      = resource.name,
+        const name = resource.name,
             scriptUrl = resource.path.script,
-            styleUrl  = resource.path.style;
+            styleUrl = resource.path.style;
 
         return Promise.all([
             codex.loader.importScript(scriptUrl, name),
             codex.loader.importStyle(styleUrl, name)
         ]);
 
-    }
+    };
 
     /**
-    * Prepares form to submit
-    */
-    var getForm = function () {
+     * Prepares form to submit
+     */
+    const getForm = () => {
 
-        var atlasForm = document.forms.atlas;
+        const atlasForm = document.forms.atlas;
 
         if (!atlasForm) return;
 
@@ -357,7 +359,7 @@ module.exports = (function () {
      * Send ajax request with writing form data
      * @param button - submit button (needed to add loading animation)
      */
-    var submit = function (button) {
+    const submit = (button) => {
 
         const buttonLoadingClass = 'loading';
 
@@ -370,8 +372,9 @@ module.exports = (function () {
 
         }
 
-        var title = document.forms.atlas.elements['title'],
-            form;
+        const title = document.forms.atlas.elements['title'];
+
+        let form;
 
         if (!title.value.trim()) {
 
@@ -388,7 +391,7 @@ module.exports = (function () {
 
         button.classList.add(buttonLoadingClass);
 
-        window.setTimeout(function () {
+        window.setTimeout(() => {
 
             form.elements['content'].value = JSON.stringify({items: codex.editor.state.jsonOutput});
 
@@ -410,9 +413,9 @@ module.exports = (function () {
 
     /**
      * Response handler for page saving
-     * @param response
+     * @param {Object} response
      */
-    var submitResponse = function (response) {
+    const submitResponse = function (response) {
 
         response = JSON.parse(response);
 
@@ -431,17 +434,15 @@ module.exports = (function () {
     };
 
     /**
-    * Submits writing form for opening in full-screan page without saving
-    */
-    var openEditorFullscreen = function () {
+     * Submits writing form for opening in full-screan page without saving
+     */
+    const openEditorFullscreen = () => {
 
+        const form = getForm();
 
-        var form = getForm();
-
-        window.setTimeout(function () {
+        window.setTimeout(() => {
 
             form.elements['content'].value = JSON.stringify({ items: codex.editor.state.jsonOutput });
-
             form.submit();
 
         }, 500);
@@ -449,11 +450,13 @@ module.exports = (function () {
     };
 
     return {
-        init    : init,
-        prepare : prepare,
-        open    : open,
-        openEditorFullscreen : openEditorFullscreen,
-        submit               : submit,
+        init,
+        prepare,
+        open,
+        openEditorFullscreen,
+        submit,
     };
 
-})();
+};
+
+module.exports = writing();

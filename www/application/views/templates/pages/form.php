@@ -1,4 +1,19 @@
-<form class="writing island island--bottom-rounded" action="/p/writing" id="atlasForm" method="post" name="atlas">
+<form class="writing island island--bottom-rounded" action="/p/writing" id="atlasForm" method="post" name="atlas" data-module="writing">
+
+    <module-settings hidden>
+        [
+            {
+                "selector" : ".js-comment-settings",
+                "items" : [{
+                    "title" : "Удалить",
+                    "handler" : {
+                        "module" : "comments",
+                        "method" : "remove"
+                    }
+                }]
+            }
+        ]
+    </module-settings>
 
     <?
         /** if there is no information about page */
@@ -91,10 +106,14 @@
 <script>
 
     /** Document is ready */
-    codex.docReady(function(){
+    codex.docReady(function() {
 
-        var plugins = ['paragraph', 'header', 'image', 'attaches', 'list', 'raw'],
-            scriptPath = 'https://cdn.ifmo.su/editor/v1.6/',
+      return;
+
+        var plugins = ['header'],
+            // plugins = ['paragraph', 'header', 'image', 'attaches', 'list', 'raw'],
+            // scriptPath = 'https://cdn.ifmo.su/editor/v1.6/',
+            scriptPath = '/public/extensions/codex.editor/';
             settings = {
                 holderId          : 'placeForEditor',
                 pageId            : <?= $page->id ?>,
@@ -107,8 +126,8 @@
         settings.resources.push({
             name : 'codex-editor',
             path : {
-                script : scriptPath + 'codex-editor.js',
-                style  : scriptPath + 'codex-editor.css'
+                script : scriptPath + 'build/codex-editor.js',
+                // style  : scriptPath + 'codex-editor.css'
             }
         });
 
@@ -116,8 +135,8 @@
             settings.resources.push({
                 name : plugin,
                 path : {
-                    script : scriptPath + 'plugins/' + plugin + '/' + plugin + '.js',
-                    style  : scriptPath + 'plugins/' + plugin + '/' + plugin + '.css',
+                    script : scriptPath + 'example/plugins/' + plugin + '/' + plugin + '.js',
+                    style  : scriptPath + 'example/plugins/' + plugin + '/' + plugin + '.css',
                 }
             });
         }

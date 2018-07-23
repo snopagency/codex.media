@@ -1,0 +1,3 @@
+[submodule "www/public/extensions/codex.editor"]
+	path = www/public/extensions/codex.editor
+	url = https://github.com/codex-team/codex.editor
