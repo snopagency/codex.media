@@ -9,9 +9,9 @@ const baseConfig    = require('./base.webpack.config');
 
 module.exports = merge(baseConfig, {
 
-    entry: './public/app/js/main.js',
+    entry: path.join(__dirname, 'public', 'app', 'js', 'main.js'), // './public/app/js/main.js',
     output: {
-        path: path.join(__dirname, 'public/build'),
+        path: path.join(__dirname, 'public', 'build'),
         filename: 'bundle.js',
         library: 'codex'
     },
@@ -37,6 +37,7 @@ module.exports = merge(baseConfig, {
          * - eslint-loader
          */
         test: /\.js$/,
+        exclude: [ /node_modules/ ],
         // include: [
         //   path.join('.', 'public', 'app', 'js')
         // ],

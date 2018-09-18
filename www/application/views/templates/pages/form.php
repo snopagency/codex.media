@@ -54,7 +54,7 @@
         <textarea class="writing__title js-autoresizable" rows="1" name="title" placeholder="Заголовок" id="editorWritingTitle"><?= $page->title ?></textarea>
     </div>
 
-    <div class="editor-wrapper" id="placeForEditor"></div>
+    <div class="editor-wrapper" id="codex-editor"></div>
 
     <div class="page-options">
         <div class="page-options__item js-page-options__item hide" data-page-type="<?= Model_Page::COMMUNITY ?>">
@@ -112,44 +112,61 @@
 <?
     $hideEditorToolbar = !empty($hideEditorToolbar) && $hideEditorToolbar;
 ?>
+
 <script>
 
     /** Document is ready */
     codex.docReady(function(){
 
-        var plugins = ['paragraph', 'header', 'image', 'attaches', 'list', 'raw'],
-            scriptPath = 'https://cdn.ifmo.su/editor/v1.6/',
-            settings = {
-                holderId          : 'placeForEditor',
-                pageId            : <?= $page->id ?>,
-                parentId          : <?= $page->id_parent ?>,
-                hideEditorToolbar : <?= $hideEditorToolbar ? 'true' : 'false' ?>,
-                data              : <?= $page->content ?: '[]' ?>,
-                resources         : []
-            };
+      codex.writing.runEditor();
 
-        settings.resources.push({
-            name : 'codex-editor',
-            path : {
-                script : scriptPath + 'codex-editor.js',
-                style  : scriptPath + 'codex-editor.css'
-            }
-        });
+      // var editor = new CodexEditor({
+      //   holderId: 'placeForEditor',
+        // tools: {
+        //   header: {
+        //     class: Header,
+        //     shortcut: 'CMD+SHIFT+H'
+        //   },
+        //   list: {
+        //     class: List,
+        //     shortcut: 'CMD+SHIFT+L'
+        //   }
+        // }
+      // });
 
-        for (var i = 0, plugin; !!(plugin = plugins[i]); i++) {
-            settings.resources.push({
-                name : plugin,
-                path : {
-                    script : scriptPath + 'plugins/' + plugin + '/' + plugin + '.js',
-                    style  : scriptPath + 'plugins/' + plugin + '/' + plugin + '.css',
-                }
-            });
-        }
-
-        var editorReady = codex.writing.prepare(settings);
-
-        <? if (!$hideEditorToolbar): ?>
-            editorReady.then(codex.writing.init);
-        <? endif ?>
+        //var plugins = ['paragraph', 'header', 'image', 'attaches', 'list', 'raw'],
+        //    scriptPath = 'https://cdn.ifmo.su/editor/v1.6/',
+        //    settings = {
+        //        holderId          : 'placeForEditor',
+        //        pageId            : <?//= $page->id ?>//,
+        //        parentId          : <?//= $page->id_parent ?>//,
+        //        hideEditorToolbar : <?//= $hideEditorToolbar ? 'true' : 'false' ?>//,
+        //        data              : <?//= $page->content ?: '[]' ?>//,
+        //        resources         : []
+        //    };
+        //
+        //settings.resources.push({
+        //    name : 'codex-editor',
+        //    path : {
+        //        script : scriptPath + 'codex-editor.js',
+        //        style  : scriptPath + 'codex-editor.css'
+        //    }
+        //});
+        //
+        //for (var i = 0, plugin; !!(plugin = plugins[i]); i++) {
+        //    settings.resources.push({
+        //        name : plugin,
+        //        path : {
+        //            script : scriptPath + 'plugins/' + plugin + '/' + plugin + '.js',
+        //            style  : scriptPath + 'plugins/' + plugin + '/' + plugin + '.css',
+        //        }
+        //    });
+        //}
+        //
+        //var editorReady = codex.writing.prepare(settings);
+        //
+        <?// if (!$hideEditorToolbar): ?>
+        //    editorReady.then(codex.writing.init);
+        <?// endif ?>
     });
 </script>
