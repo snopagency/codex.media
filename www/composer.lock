@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/codex-team/codex.editor.backend.git",
-                "reference": "1eaea94e18153db1f84a4b2bf613d5075b8474f9"
+                "reference": "f5dd637e00738a0ecdf42bd5081b4de40fa2de5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codex-team/codex.editor.backend/zipball/1eaea94e18153db1f84a4b2bf613d5075b8474f9",
-                "reference": "1eaea94e18153db1f84a4b2bf613d5075b8474f9",
+                "url": "https://api.github.com/repos/codex-team/codex.editor.backend/zipball/f5dd637e00738a0ecdf42bd5081b4de40fa2de5b",
+                "reference": "f5dd637e00738a0ecdf42bd5081b4de40fa2de5b",
                 "shasum": ""
             },
             "require": {
@@ -44,7 +44,7 @@
                 }
             ],
             "description": "Codex Editor server side example",
-            "time": "2018-09-20T16:41:26+00:00"
+            "time": "2018-09-20T17:41:16+00:00"
         },
         {
             "name": "codex-team/hawk.php",

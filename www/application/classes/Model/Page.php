@@ -273,9 +273,9 @@ class Model_Page extends Model
         }
 
         try {
-            $CodexEditor = new CodexEditor($this->content);
+            $CodexEditor = new CodexEditor($this->content, Model_Page::getEditorConfig());
 
-            $content = $CodexEditor->getBlocks($escapeHTML);
+            $content = $CodexEditor->sanitize();
         } catch (Exception $e) {
             throw new Kohana_Exception("CodexEditor:" . $e->getMessage());
         }
@@ -283,6 +283,11 @@ class Model_Page extends Model
         Cache::instance('memcacheimp')->set($cacheKey, $content, [$this->modelCacheKey]);
 
         return $content;
+    }
+
+    public static function getEditorConfig()
+    {
+        return APPPATH . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'editor-backend-config.json';
     }
 
     /**
