@@ -12,17 +12,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/codex-team/codex.editor.backend.git",
-                "reference": "b966d031e36d048c0c544391dcad236d8cba514a"
+                "reference": "1eaea94e18153db1f84a4b2bf613d5075b8474f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codex-team/codex.editor.backend/zipball/b966d031e36d048c0c544391dcad236d8cba514a",
-                "reference": "b966d031e36d048c0c544391dcad236d8cba514a",
+                "url": "https://api.github.com/repos/codex-team/codex.editor.backend/zipball/1eaea94e18153db1f84a4b2bf613d5075b8474f9",
+                "reference": "1eaea94e18153db1f84a4b2bf613d5075b8474f9",
                 "shasum": ""
             },
             "require": {
                 "ezyang/htmlpurifier": "^4.8",
                 "php": ">=5.6"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "5.4.*"
             },
             "type": "library",
             "autoload": {
@@ -41,7 +44,7 @@
                 }
             ],
             "description": "Codex Editor server side example",
-            "time": "2018-08-16T12:13:55+00:00"
+            "time": "2018-09-20T16:41:26+00:00"
         },
         {
             "name": "codex-team/hawk.php",
