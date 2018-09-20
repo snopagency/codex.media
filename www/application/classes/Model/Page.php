@@ -275,7 +275,7 @@ class Model_Page extends Model
         try {
             $CodexEditor = new CodexEditor($this->content);
 
-            $content = $CodexEditor->getData($escapeHTML);
+            $content = $CodexEditor->getBlocks($escapeHTML);
         } catch (Exception $e) {
             throw new Kohana_Exception("CodexEditor:" . $e->getMessage());
         }
