@@ -116,57 +116,11 @@
 <script>
 
     /** Document is ready */
-    codex.docReady(function(){
+    codex.docReady(function () {
+        codex.writing.runEditor(<?= $page->content ?: '{}' ?>);
 
-      codex.writing.runEditor();
-
-      // var editor = new CodexEditor({
-      //   holderId: 'placeForEditor',
-        // tools: {
-        //   header: {
-        //     class: Header,
-        //     shortcut: 'CMD+SHIFT+H'
-        //   },
-        //   list: {
-        //     class: List,
-        //     shortcut: 'CMD+SHIFT+L'
-        //   }
-        // }
-      // });
-
-        //var plugins = ['paragraph', 'header', 'image', 'attaches', 'list', 'raw'],
-        //    scriptPath = 'https://cdn.ifmo.su/editor/v1.6/',
-        //    settings = {
-        //        holderId          : 'placeForEditor',
-        //        pageId            : <?//= $page->id ?>//,
-        //        parentId          : <?//= $page->id_parent ?>//,
-        //        hideEditorToolbar : <?//= $hideEditorToolbar ? 'true' : 'false' ?>//,
-        //        data              : <?//= $page->content ?: '[]' ?>//,
-        //        resources         : []
-        //    };
-        //
-        //settings.resources.push({
-        //    name : 'codex-editor',
-        //    path : {
-        //        script : scriptPath + 'codex-editor.js',
-        //        style  : scriptPath + 'codex-editor.css'
-        //    }
-        //});
-        //
-        //for (var i = 0, plugin; !!(plugin = plugins[i]); i++) {
-        //    settings.resources.push({
-        //        name : plugin,
-        //        path : {
-        //            script : scriptPath + 'plugins/' + plugin + '/' + plugin + '.js',
-        //            style  : scriptPath + 'plugins/' + plugin + '/' + plugin + '.css',
-        //        }
-        //    });
-        //}
-        //
-        //var editorReady = codex.writing.prepare(settings);
-        //
-        <?// if (!$hideEditorToolbar): ?>
-        //    editorReady.then(codex.writing.init);
-        <?// endif ?>
+        <? /* if (!$hideEditorToolbar): ?>
+            editorReady.then(codex.writing.runEditor());
+        <? endif */ ?>
     });
 </script>

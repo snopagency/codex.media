@@ -16,61 +16,6 @@ const InlineCode = require('codex.editor.inline-code');
 
 let editor;
 
-const save = Utils.debounce(() => {
-
-    editor.saver.save()
-        .then((savedData) => {
-
-            /**
-       * Send POST request
-       */
-            return new Promise((resolve, reject) => {
-
-                let xmlhttp = window.XMLHttpRequest ? new window.XMLHttpRequest() : new window.ActiveXObject('Microsoft.XMLHTTP');
-
-                xmlhttp.open('POST', '/');
-                xmlhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-                xmlhttp.onreadystatechange = () => {
-
-                    if (xmlhttp.readyState === 4) {
-
-                        const response = xmlhttp.responseText;
-
-                        if (xmlhttp.status === 200) {
-
-                            resolve(response);
-
-                        } else {
-
-                            reject(response);
-
-                        }
-
-                    }
-
-                };
-                xmlhttp.send(JSON.stringify(savedData));
-
-            });
-
-        })
-        .then(response => {
-
-            response = JSON.parse(response);
-
-            console.log('Server response: ', response);
-
-            window.history.pushState({}, '', response.id);
-
-        })
-        .catch(err => {
-
-            console.log('Error was occurred while saving: ', err);
-
-        });
-
-}, 1000);
-
 class Writing {
 
     constructor() {
@@ -79,6 +24,11 @@ class Writing {
 
     }
 
+    /**
+     * Init editor with given data
+     *
+     * @param {{blocks: Array}|Object} data
+     */
     runEditor(data = {}) {
 
         const editorData = !Utils.isEmptyObject(data) ? data : this.defaultEditorData;
@@ -118,20 +68,134 @@ class Writing {
             },
 
             data: editorData,
-
-            onReady: Writing.onReady
         });
 
     }
 
+    submit(button) {
+
+        const buttonLoadingClass = 'loading';
+
+        /**
+       * Prevent multiple submitting
+       */
+        if (button.classList.contains(buttonLoadingClass)) {
+
+            return;
+
+        }
+
+        var title = document.forms.atlas.elements['title'],
+            form;
+
+        if (!title.value.trim()) {
+
+            codex.editor.notifications.notification({
+                type: 'warn',
+                message: 'Заполните заголовок'
+            });
+
+            console.log('Заполните заголовок');
+
+
+            return;
+
+        }
+
+        form = Writing.getForm();
+
+        button.classList.add(buttonLoadingClass);
+
+        editor.saver.save()
+            .then(function (savedData) {
+
+                form.elements['content'].value = JSON.stringify(savedData); // JSON.stringify({items: codex.editor.state.jsonOutput});
+
+                codex.ajax.call({
+                    url: '/p/save',
+                    data: new FormData(form),
+                    success: (response) => {
+
+                        button.classList.remove(buttonLoadingClass);
+                        Writing.submitResponse(response);
+
+                    },
+                    type: 'POST'
+                });
+
+            });
+
+    };
+
+    static getForm() {
+
+        let atlasForm = document.forms.atlas;
+
+        if (!atlasForm) return;
+
+        return atlasForm;
+
+    };
+
+    /**
+     * Response handler for page saving
+     * @param response
+     */
+    static submitResponse(response) {
+
+        response = JSON.parse(response);
+
+        if (response.success) {
+
+            window.location = response.redirect;
+            return;
+
+        }
+
+        codex.editor.notifications.notification({
+            type: 'warn',
+            message: response.message
+        });
+
+    };
+
+    /**
+     * Submits writing form for opening in full-screan page without saving
+     */
+    openEditorFullscreen() {
+
+        const form = Writing.getForm();
+
+        editor.saver.save()
+            .then(function (savedData) {
+
+                form.elements['content'].value = JSON.stringify(savedData);
+
+                form.submit();
+
+            });
+
+    };
+
+    /**
+     * Data to be placed to the empty editor on init
+     *
+     * @returns {{blocks: Array}}
+     */
     get defaultEditorData() {
 
         return {
             blocks: [
                 // {
+                //     type: 'paragraph',
+                //     data: {
+                //         text: 'hello world'
+                //     }
+                // },
+                // {
                 //     type: 'header',
                 //     data: {
-                //         text: '',
+                //         text: 'sample title',
                 //         level: 2
                 //     }
                 // }
@@ -139,6 +203,23 @@ class Writing {
         };
 
     }
+
+    /**
+    * Show form and hide placeholder
+    *
+    * @param  {Element} targetClicked       placeholder with wrapper
+    * @param  {String}  formId               remove 'hide' from this form by id
+    * @param  {String}  hidePlaceholderClass add this class to placeholder
+    */
+    open(targetClicked, formId, hidePlaceholderClass) {
+
+        const holder = targetClicked;
+
+        document.getElementById(formId).classList.remove('hide');
+        holder.classList.add(hidePlaceholderClass);
+        holder.onclick = null;
+
+    };
 
 }
 

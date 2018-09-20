@@ -90,7 +90,6 @@ class Model_Page extends Model
         self::get($id);
 
         if ($this->id) {
-            $this->content = $this->validateContent();
             $this->blocks = $this->getBlocks($escapeHTML);
             $this->description = $this->getDescription();
         }
@@ -221,7 +220,6 @@ class Model_Page extends Model
                     $page->fillByRow($page_row);
 
                     $page->modelCacheKey = Arr::get($_SERVER, 'DOMAIN', 'codex.media') . ':model:page:' . $page->id;
-                    $page->content = $page->validateContent();
                     $page->blocks = $page->getBlocks(true);
                     $page->description = $page->getDescription();
 
@@ -262,46 +260,10 @@ class Model_Page extends Model
      *
      * @throws Kohana_Exception error thrown by CodeXEditor vendor module
      *
-     * @return Array - list of page blocks
+     * @return array - list of page blocks
      */
     public function getBlocks($escapeHTML = false)
     {
-        $config = Kohana::$config->load('editor');
-
-        $cacheKey = $this->modelCacheKey . ':blocks';
-
-        $blocks = Cache::instance('memcacheimp')->get($cacheKey);
-
-        if ($blocks) {
-            return $blocks;
-        }
-
-        try {
-            $CodexEditor = new CodexEditor($this->content, $config);
-
-            $blocks = $CodexEditor->getBlocks($escapeHTML);
-        } catch (Exception $e) {
-            throw new Kohana_Exception("CodexEditor (article:" . $this->id . "): " . $e->getMessage());
-        }
-
-        Cache::instance('memcacheimp')->set($cacheKey, $blocks, [$this->modelCacheKey]);
-
-        return $blocks;
-    }
-
-    /**
-     * Pass JSON with page data through CodexEditor class for validate blocks data
-     *
-     * @param bool $escapeHTML - if TRUE, escapes HTML entities
-     *
-     * @throws Kohana_Exception if data is not valid
-     *
-     * @return string - JSON with validated data
-     */
-    public function validateContent($escapeHTML = false)
-    {
-        $config = Kohana::$config->load('editor');
-
         $cacheKey = $this->modelCacheKey . ':content';
 
         $content = Cache::instance('memcacheimp')->get($cacheKey);
@@ -311,12 +273,11 @@ class Model_Page extends Model
         }
 
         try {
-            $CodexEditor = new CodexEditor($this->content, $config);
+            $CodexEditor = new CodexEditor($this->content);
 
             $content = $CodexEditor->getData($escapeHTML);
         } catch (Exception $e) {
-            throw new Kohana_Exception("CodexEditor (article:" . $this->id
-                                       . "):" . $e->getMessage());
+            throw new Kohana_Exception("CodexEditor:" . $e->getMessage());
         }
 
         Cache::instance('memcacheimp')->set($cacheKey, $content, [$this->modelCacheKey]);
