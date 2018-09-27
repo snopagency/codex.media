@@ -287,7 +287,9 @@ class Model_Page extends Model
 
     public static function getEditorConfig()
     {
-        return APPPATH . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'editor-backend-config.json';
+        $path = APPPATH . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'editor-backend-config.json';
+
+        return file_get_contents($path);
     }
 
     /**

@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/codex-team/codex.editor.backend.git",
-                "reference": "f5dd637e00738a0ecdf42bd5081b4de40fa2de5b"
+                "reference": "ce0005de0cc9b33a6b14013cbfa440c1b1def06a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codex-team/codex.editor.backend/zipball/f5dd637e00738a0ecdf42bd5081b4de40fa2de5b",
-                "reference": "f5dd637e00738a0ecdf42bd5081b4de40fa2de5b",
+                "url": "https://api.github.com/repos/codex-team/codex.editor.backend/zipball/ce0005de0cc9b33a6b14013cbfa440c1b1def06a",
+                "reference": "ce0005de0cc9b33a6b14013cbfa440c1b1def06a",
                 "shasum": ""
             },
             "require": {
@@ -25,6 +25,7 @@
                 "php": ">=5.6"
             },
             "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.13",
                 "phpunit/phpunit": "5.4.*"
             },
             "type": "library",
@@ -39,12 +40,12 @@
             ],
             "authors": [
                 {
-                    "name": "khaydarov",
-                    "email": "murod.haydarov@inbox.ru"
+                    "name": "CodeX Team",
+                    "email": "team@ifmo.su"
                 }
             ],
             "description": "Codex Editor server side example",
-            "time": "2018-09-20T17:41:16+00:00"
+            "time": "2018-09-27T13:41:16+00:00"
         },
         {
             "name": "codex-team/hawk.php",

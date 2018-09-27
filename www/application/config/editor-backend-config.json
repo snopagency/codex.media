@@ -13,12 +13,12 @@
     "paragraph": {
       "text": {
         "type": "string",
-        "allowedTags": ""
+        "allowedTags": "a[href]"
       }
     },
     "list": {
       "style": {
-        "type": "const",
+        "type": "string",
         "canBeOnly": ["ordered", "numbered"]
       },
       "items": {
@@ -39,8 +39,26 @@
         "type": "string"
       },
       "alignment": {
-        "type": "const",
+        "type": "string",
         "canBeOnly": ["left", "right"]
+      }
+    },
+    "image": {
+      "url": {
+        "type": "string",
+        "required": true
+      },
+      "caption": {
+        "type": "string"
+      },
+      "withBorder": {
+        "type": "bool"
+      },
+      "withBackground": {
+        "type": "bool"
+      },
+      "stretched": {
+        "type": "bool"
       }
     }
   }
