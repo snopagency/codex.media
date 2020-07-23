@@ -9,7 +9,7 @@ module.exports = {
     watchOptions: {
 
         /* Таймаут перед пересборкой */
-        aggregateTimeout: 50
+        aggregateTimeout: 50,
     },
 
     plugins: [
