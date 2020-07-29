@@ -5,7 +5,6 @@
     top: 143px;
     left: 50%;
     transform: translateX(-50%);
-    color: #6e758a;
     background: #eef0f5;
     font-size: 15.5px;
     padding: 10px;
@@ -22,8 +21,16 @@
         z-index: 5;
     }
 
-    &__text {
-        padding: 21px 14px;
+    &__results {
+        &-placeholder {
+            padding: 21px 14px;
+            color: #6e758a;
+        }
+
+        &-data {
+            padding: 10px 0;
+            overflow-y: scroll;
+        }
     }
 
     & input[type='search'] {

@@ -7,7 +7,9 @@
         {
             "elementId": "search-modal",
             "closerId": "search-exit",
-            "inputId": "search-input"
+            "inputId": "search-input",
+            "resultsId": "search-results",
+            "placeholderId": "search-placeholder"
         }
     </module-settings>
     <div class="schools-navigator__included">

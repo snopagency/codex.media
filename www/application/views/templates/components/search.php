@@ -9,8 +9,9 @@
             <label for="search-input"></label>
             <input id="search-input" type="search" placeholder="Поиск статей">
         </div>
-        <div class="search-modal__text">
+        <div class="search-modal__results-placeholder" id="search-placeholder">
             Начните вводить поисковый запрос
         </div>
+        <div class="search-modal__results-data" id="search-results" hidden></div>
     </div>
 </div>

@@ -6,7 +6,9 @@ class Controller_Search extends Controller_Base_preDispatch
 {
     public function action_search()
     {
-        $word = $this->request->param('word');
+        $this->auto_render = false;
+
+        $word = Arr::get($_POST, 'word');
 
         $hosts = ['elasticsearch:9200'];
         $client = ClientBuilder::create()
@@ -15,7 +17,7 @@ class Controller_Search extends Controller_Base_preDispatch
 
         $params = [
             'index' => 'firstindex',
-            'type' => 'article',
+            'type' => 'user',
             'body' => [
                 'query' => [
                     'match' => [
@@ -26,13 +28,21 @@ class Controller_Search extends Controller_Base_preDispatch
         ];
 
         $response = $client->search($params);
+        $feed_key = Model_Feed_Pages::ALL;
 
-        $resultNames = array_map(function ($item) {
-            return $item['_source'];
-        }, $response['hits']['hits']);
+        $result = [
+            'search_result' => array_map(function ($item) {
+                return $item['_source'];
+            }, $response['hits']['hits'])
+        ];
 
-        $this->template->content = View::factory('templates/pages/search', [
-            'search' => $resultNames
-        ]);
+        $feed = new Model_Feed_Pages($feed_key);
+
+        $pages = $feed->get(5);
+
+        $result['searchResults'] = View::factory('templates/pages/list', array('pages' => $pages, 'active_tab' => $feed_key))->render();
+
+        $this->response->headers('Content-Type', 'application/json; charset=utf-8');
+        $this->response->body(@json_encode($result));
     }
 }

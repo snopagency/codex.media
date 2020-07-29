@@ -2,7 +2,9 @@ const ajax = require('@codexteam/ajax');
 
 const search = {
 
-    init: function ({elementId, closerId, inputId}) {
+    results: [],
+
+    init: function ({elementId, closerId, inputId, resultsId, placeholderId}) {
 
         const element = document.getElementById(elementId);
 
@@ -14,6 +16,8 @@ const search = {
 
         this.closerId = closerId;
         this.inputId = inputId;
+        this.resultsId = resultsId;
+        this.placeholderId = placeholderId;
 
     },
 
@@ -30,7 +34,7 @@ const search = {
         const input = document.getElementById(this.inputId);
 
         closer && closer.addEventListener('click', () => this.hide());
-        input && input.addEventListener('change', () => this.search());
+        input && input.addEventListener('keydown', (event) => this.search(event.target.value));
 
     },
 
@@ -41,14 +45,26 @@ const search = {
 
     },
 
-    search: function () {
+    search: function (value) {
 
         ajax.post({
-            url: '/p/save',
-            data: this.form
-        }).then((response) => {
+            url: '/search',
+            data: {
+                word: value
+            },
+            type: ajax.contentType.FORM
+        }).then(response => {
 
-            console.log(response);
+            const results = document.getElementById(this.resultsId);
+
+            if (results) {
+
+                results.removeAttribute('hidden');
+                results.innerHTML = response.body['searchResults'];
+
+            }
+
+            document.getElementById(this.placeholderId).hidden = true;
 
         });
 
