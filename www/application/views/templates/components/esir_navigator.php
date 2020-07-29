@@ -4,7 +4,11 @@
     onclick="document.body.classList.add('navigator-shown'); var widget = document.getElementById('widgetNavigatorGovSpbRu'); widget && widget.click(); codex.search.show();"
 >
     <module-settings hidden>
-        { "id": "search-modal" }
+        {
+            "elementId": "search-modal",
+            "closerId": "search-exit",
+            "inputId": "search-input"
+        }
     </module-settings>
     <div class="schools-navigator__included">
         Сайт включен в каталог ЕСИР

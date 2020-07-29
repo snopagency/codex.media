@@ -1,16 +1,19 @@
+const ajax = require('@codexteam/ajax');
+
 const search = {
 
-    modal: null,
+    init: function ({elementId, closerId, inputId}) {
 
-    init: function ({id}) {
-
-        const element = document.getElementById(id);
+        const element = document.getElementById(elementId);
 
         if (element) {
 
             this.modal = element;
 
         }
+
+        this.closerId = closerId;
+        this.inputId = inputId;
 
     },
 
@@ -23,16 +26,31 @@ const search = {
 
         }
 
+        const closer = document.getElementById(this.closerId);
+        const input = document.getElementById(this.inputId);
+
+        closer && closer.addEventListener('click', () => this.hide());
+        input && input.addEventListener('change', () => this.search());
+
     },
 
     hide: function () {
 
-        if (this.modal) {
+        this.modal.setAttribute('hidden', true);
+        document.body.style.overflow = 'auto';
 
-            this.modal.setAttribute('hidden', true);
-            document.body.style.overflow = 'auto';
+    },
 
-        }
+    search: function () {
+
+        ajax.post({
+            url: '/p/save',
+            data: this.form
+        }).then((response) => {
+
+            console.log(response);
+
+        });
 
     }
 };

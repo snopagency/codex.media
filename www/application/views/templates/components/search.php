@@ -2,7 +2,7 @@
     <div class="search-modal-overlay"></div>
     <div class="search-modal">
         <div class="search-modal__exit-button">
-            <div class="search-modal__exit-icon"></div>
+            <div class="search-modal__exit-icon" id="search-exit"></div>
             ESC
         </div>
         <div class="search-modal__input-wrapper">
